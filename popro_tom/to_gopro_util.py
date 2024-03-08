@@ -1,6 +1,13 @@
+import os
+
+os.environ["LANG"] = "en_US"
 
 import asyncio
+
 from open_gopro import WirelessGoPro, Params
+
+
+
 
 async def main():
     async with WirelessGoPro() as gopro:
