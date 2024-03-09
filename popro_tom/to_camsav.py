@@ -1,4 +1,5 @@
 import requests
+import time
 
 # 送信先のURL
 url = 'http://192.168.1.4:810'
@@ -57,22 +58,83 @@ def ret_all_cam_info():
     
     r = command(data)
     
-    for o in r.keys():
-        print(o, ':', r[o])
+    
+    #for o in r.keys():
+    #    print(o, ':', r[o])
         
+    return r
+        
+#
+'''
+The status code can be 0 (ok), 
+-3 (camera with the given name was not found),
+ or -5 (camera is not connected).     
+{
+	"command": "connectToCameraWiFiAsync",
+	"camera": "GP123456"
+}
+ 
+''' 
 def wifi():
     #try to connect 1st camera 
     
-    '''
-    {
-	"command": "connectToCameraWiFiAsync",
-	"camera": "GP123456"
-    }
-    '''
+
     #list of dict
     r = ret_all_cam_info()
     
-    camname = r[0]['name']
+    #print(r)
     
-    print ('try to connect :',camname)
+    for o in r['cameras']:
+        
+        camname = o['name']
+        sdata = {}
+        sdata['command'] = 'sendCameraCommand'
+        sdata['cameras'] = [camname]
+        for on in o.keys():
+            print('---',on, ':',o[on])     
+        
+        print ('disableWiFi')
+        sdata['cameraCommand'] = 'disableWiFi'
+        command(sdata)
+        time.sleep(5) 
+        
+        print ('enableWiFi')
+        sdata['cameraCommand'] = 'enableWiFi'
+        command(sdata)
+        time.sleep(5) 
+        
+        #connected bluetooth_status
+        if o['bluetooth_status'] != 'connected':
+        
+            print ('try to conect BLE-----')
+            
+
+            sdata['cameraCommand'] = 'connectToCamera'
+            
+            r = command(sdata)
+            
+            print (r)
+            
+            
+            
+            '''
+            {
+                "command": "sendCameraCommand",
+                "cameras": ["GP123456"],
+                "cameraCommand": "connectToCamera"
+            }
+            '''
+        
+        ###########
+        
+        print ('try to connect WiFi:',camname)
+        
+        data = {'command':'connectToCameraWiFiAsync'}
+        data['camera'] = camname
+        
+        r = command(data)
+        
+        print(r)
+        
+        return r
     
