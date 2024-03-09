@@ -1,0 +1,11 @@
+env\Scripts\Activate
+
+from importlib import reload
+
+
+from importlib import reload;import to_util;
+
+
+reload(to_util)
+
+--open wifi: GoPro 3084, Address: F5:10:E6:0F:6A:7D
