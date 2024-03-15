@@ -3,7 +3,7 @@ from bleak import BleakClient, BleakScanner
 from main import run
 import commands
 
-from pywifi import PyWiFi, const, Profile
+#from pywifi import PyWiFi, const, Profile
 
 # Wi-Fi SSIDを読み取るためのキャラクタリスティックUUID
 #WIFI_SSID_CHARACTERISTIC_UUID = "b5f90002-aa8d-11e3-9046-0002a5d5c51b"
@@ -115,7 +115,7 @@ async def ret_media(gopro_cameras):
             
             connect_wifi(ssid['WiFi SSID'],ssid['WiFi Password'])
 
-
+'''
 def connect_wifi(ssid, password):
 
     wifi = PyWiFi()  # Wi-Fiデバイスのインスタンスを作成
@@ -135,7 +135,7 @@ def connect_wifi(ssid, password):
     ifaces.connect(tmp_profile)  # Wi-Fiに接続
     print(f"Connecting to {ssid}...")
     
-    
+'''
     
 if __name__ == "__main__":
     asyncio.run(do())
